@@ -1,0 +1,30 @@
+#container {
+    margin:0 auto;/* 화면 중앙에 배치 */
+    width:1200px;    /* 너비 */    
+    background-color: #fff;
+  }
+.calenderWrap{
+  float: left;
+}
+form{
+  margin-left: 100px;
+  display: inline-block;
+}
+.text
+{
+    display: inline-block;
+    margin-left: 7px;
+    line-height: 35px;
+    vertical-align: top;
+}
+
+.hidden{
+    display: none;
+}
+option{
+  text-align: center;
+}
+.result{
+  display: inline-block;
+  margin-left: 100px;
+}

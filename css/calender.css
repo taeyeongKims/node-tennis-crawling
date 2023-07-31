@@ -1,0 +1,65 @@
+table {
+    margin: auto;
+    display: inline-block;
+}
+td {
+  width: 50px;
+  height: 50px;
+}
+
+.Calendar { 
+    text-align: center;
+    margin: 0 auto; 
+}
+
+.Calendar>thead>tr:first-child>td { font-weight: bold; }
+
+.Calendar>thead>tr:last-child>td {
+    background-color: gray;
+    color: white;
+}        
+
+.pastDay{ background-color: lightgray; }
+
+.today{            
+    background-color: #FFCA64;            
+}
+
+.futureDay{            
+    background-color: lightgray;
+}
+
+.selectDay.choiceDay, .futureDay.choiceDay, .today.choiceDay{            
+    background-color: rgb(255, 0, 0);            
+    color: #fff !important;
+    cursor: pointer;
+    caret-color: transparent;
+}
+
+.selectDay{
+    border-width: 1px;
+    border-radius: 10%;
+    border-color: red;            
+    border-style: solid;
+    background-color: white;            
+    cursor: pointer;
+}
+.selectMark{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-width: 1px;
+    border-radius: 10%;
+    border-color: red;            
+    border-style: solid;
+    background-color: white;  
+}
+.disableMark{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-left: 18px;
+    background-color: lightgray;
+    border: 2px solid lightgray;
+    line-height: 36px;
+}
