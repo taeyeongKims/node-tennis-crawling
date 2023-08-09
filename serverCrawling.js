@@ -3,6 +3,8 @@ const app = express()
 const cors = require('cors')
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
+const currentDate = new Date();
+const currentMonth = currentDate.getMonth()+1; 
 
 let sessionData;
 
@@ -31,7 +33,7 @@ app.get('/place', async(req, res) =>{
 app.get('/schedule', async (req, res) => {
     const selected_place = req.query.select_place;
     const calendarMonth = req.query.Calendar;
-
+    console.log(calendarMonth);
   if(selected_place == "spoonePark"){
       res.json({'place' : "스포원"});
   } else if(selected_place == "sapryang"){
@@ -91,24 +93,24 @@ async function reserveParsing(selected_place, valueToFind) {
   const page = await browser.newPage();
   await page.setCookie(...sessionData);
   
-  page.setRequestInterception(true);
+  // page.setRequestInterception(true);
 
-  // request 이벤트를 가로채고 필요한 리소스만 요청하도록 설정합니다.
-  page.on('request', (request) => {
-    const resourceType = request.resourceType();
+  // // request 이벤트를 가로채고 필요한 리소스만 요청하도록 설정합니다.
+  // page.on('request', (request) => {
+  //   const resourceType = request.resourceType();
 
-    // CSS, Script, XHR, Fetch 리소스 유형만 허용
-    if (
-      resourceType !== 'document' &&
-      resourceType !== 'script' &&
-      resourceType !== 'xhr' &&
-      resourceType !== 'fetch'
-    ) {
-      request.abort(); // 불필요한 리소스 요청 중단
-    } else {
-      request.continue(); // 필요한 리소스 요청 진행
-    }
-  });
+  //   // CSS, Script, XHR, Fetch 리소스 유형만 허용
+  //   if (
+  //     resourceType !== 'document' &&
+  //     resourceType !== 'script' &&
+  //     resourceType !== 'xhr' &&
+  //     resourceType !== 'fetch'
+  //   ) {
+  //     request.abort(); // 불필요한 리소스 요청 중단
+  //   } else {
+  //     request.continue(); // 필요한 리소스 요청 진행
+  //   }
+  // });
 
   let url;
   
@@ -158,7 +160,7 @@ async function reserveParsing(selected_place, valueToFind) {
   await page.waitForSelector("#beginTime");
 
   let courses = await timeParsing(page);
-  // browser.close();
+  browser.close();
   return courses;
 }
 
@@ -166,25 +168,26 @@ async function scheduleParsing(selected_place, calendarMonth) {
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
   await page.setCookie(...sessionData);
+  console.log(calendarMonth);
 
-  page.setRequestInterception(true);
+  // page.setRequestInterception(true);
 
-  // request 이벤트를 가로채고 필요한 리소스만 요청하도록 설정합니다.
-  page.on('request', (request) => {
-    const resourceType = request.resourceType();
+  // // request 이벤트를 가로채고 필요한 리소스만 요청하도록 설정합니다.
+  // page.on('request', (request) => {
+  //   const resourceType = request.resourceType();
 
-    // CSS, Script, XHR, Fetch 리소스 유형만 허용
-    if (
-      resourceType !== 'document' &&
-      resourceType !== 'script' &&
-      resourceType !== 'xhr' &&
-      resourceType !== 'fetch'
-    ) {
-      request.abort(); // 불필요한 리소스 요청 중단
-    } else {
-      request.continue(); // 필요한 리소스 요청 진행
-    }
-  });
+  //   // CSS, Script, XHR, Fetch 리소스 유형만 허용
+  //   if (
+  //     resourceType !== 'document' &&
+  //     resourceType !== 'script' &&
+  //     resourceType !== 'xhr' &&
+  //     resourceType !== 'fetch'
+  //   ) {
+  //     request.abort(); // 불필요한 리소스 요청 중단
+  //   } else {
+  //     request.continue(); // 필요한 리소스 요청 진행
+  //   }
+  // });
 
   let url;
   // 이동 페이지 URL
@@ -211,25 +214,52 @@ async function scheduleParsing(selected_place, calendarMonth) {
   } else if(selected_place == "gudeok3"){
       url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=311";
   }
+  await page.goto(url); 
+  
+  if(calendarMonth == "prev"){
+    await page.waitForSelector(".prev");
+    await page.click('.prev'); 
 
-  await page.goto(url);
-  // ,{ waitUntil: 'domcontentloaded' }
-  await page.waitForSelector(".next");
-  await page.click(".next")
-  await page.waitForNavigation();
-
-  // if(calendarMonth == "prev"){
-  //   await page.waitForSelector(".prev");
-  //   await page.click('.prev');
+    // setTimeout을 Promise로 감싸고 await 사용
+    await new Promise(resolve => {
+      setTimeout(() => {
+        // 이제 Promise 내부의 waitForFunction을 기다립니다.
+        page.waitForFunction(() => {
+          return true;
+        }).then(() => {
+          resolve(); // waitForFunction이 완료되면 Promise를 해결(resolve)합니다.
+        });
+      }, 100);
+    });
+  }
+  else if(calendarMonth == "next"){
+    await page.waitForSelector(".next");
+    await page.click('.next');
+      // setTimeout을 Promise로 감싸고 await 사용
+    await new Promise(resolve => {
+      setTimeout(() => {
+        // 이제 Promise 내부의 waitForFunction을 기다립니다.
+        page.waitForFunction(() => {
+          return true;
+        }).then(() => {
+          resolve(); // waitForFunction이 완료되면 Promise를 해결(resolve)합니다.
+        });
+      }, 1500);
+    });
+  }
+  //   await page.waitForFunction((currentMonth)=>{
+  //     monthValue = document.querySelector("#srchMonth").value;
+  //     console.log(nextMonth);
+  //     return monthValue === (currentMonth+1).toString();   
+  //   }, currentMonth);
   // } 
-  // else if(calendarMonth == "next"){
-  //   await page.waitForSelector(".next");
-  //   await page.click('.next');
-  // }
-  // await page.waitForSelector(".selectDay");
+  else if (calendarMonth == "now"){
+    await page.waitForSelector(".selectDay");
+  }
+
   
   let $tableCalender = await calenderParsing(page);
-  // browser.close();
+  browser.close();
   return $tableCalender;
 }
   

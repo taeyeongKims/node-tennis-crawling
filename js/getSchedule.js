@@ -1,6 +1,6 @@
 function getSchedule(){
     var selectPlace = document.getElementById('select_place').value;
-    var url = `http://localhost:3000/schedule?select_place=${selectPlace}`; 
+    var url = `http://localhost:3000/schedule?select_place=${selectPlace}&Calendar=now`; 
         
     fetch( url, {
         method: 'GET',
