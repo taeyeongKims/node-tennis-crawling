@@ -20,15 +20,15 @@ var positions = [
         title: '강서체육공원 테니스장',
         latlng: new naver.maps.LatLng(35.208785159506995, 128.9708026631008),
         content: ['<h3>날짜: <\h3>',
-                  '<h3>장소: <\h3>',
+                  '<h3>장소: 강서체육공원 테니스장<\h3>',
                   '시간: '].join("") 
       },
       {
         title: '맥도생태공원 테니스장',
         latlng: new naver.maps.LatLng(35.14750686067209, 128.95359269844224),
-        content: `날짜: 
-                  장소: 
-                  시간: `        
+        content: ['<h3>날짜: <\h3>',
+                  '<h3>장소: 맥도생태공원 테니스장<\h3>',
+                  '시간: '].join("")       
       },
       {
         title: '대저생태공원 테니스장',
@@ -143,4 +143,46 @@ var positions = [
     }
     for (var i=0, ii=markers.length; i<ii; i++) {
        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    }
+
+    function part_zoom() {
+      var part = document.querySelector("#select_part").value;
+      switch(part) {
+        case 'gangseo': 
+          map.setCenter(positions[0].latlng);
+          map.setZoom(14);
+          break;
+        case 'macdo':  
+          map.setCenter(positions[1].latlng);
+          map.setZoom(13);
+          break;
+        case 'daejeo':  
+          map.setCenter(positions[2].latlng);
+          map.setZoom(14);
+          break;
+        case 'hwamyeong':  
+          map.setCenter(positions[3].latlng);
+          map.setZoom(14);
+          break;
+        case 'samnak':  
+          map.setCenter(positions[4].latlng);
+          map.setZoom(16);
+          break;
+        case 'gudeok':  
+          map.setCenter(positions[5].latlng);
+          map.setZoom(16);
+          break;
+        case 'spoonePark':  
+          map.setCenter(positions[6].latlng);
+          map.setZoom(14);
+          break;
+        case 'sapryang':  
+          map.setCenter(positions[7].latlng);
+          map.setZoom(14);
+          break;  
+        case 'sajik':  
+          map.setCenter(positions[8].latlng);
+          map.setZoom(15);
+          break;  
+      }
     }

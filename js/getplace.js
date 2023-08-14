@@ -1,6 +1,8 @@
  function getPlace(date_value){
+    var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value; 
-    var url = `http://localhost:3000/place?select_place=${selectPlace}&valueToFind=${date_value}`;
+    let getMonth = document.getElementById("calMonth").classList;
+    var url = `http://localhost:3000/place?select_part=${selectPart}&select_place=${selectPlace}&valueToFind=${date_value}&Calendar=${getMonth}`;
         
     fetch( url, {
         method: 'GET',
@@ -29,7 +31,7 @@ function fn_resveInfoFee(date, className){
     // return date_value;
 }
 function btnActive(e) {
-    date_value = e.innerText;
+    date_value = parseInt(e.innerText);
     console.log(date_value);
     getPlace(date_value);
 }

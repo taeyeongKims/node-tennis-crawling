@@ -86,3 +86,18 @@ window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드�
             }
             return value;
         }
+
+        function uptoDate_now() {
+            document.getElementById("calYear").innerText = nowMonth.getFullYear(); 
+            document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);
+            document.getElementById("calMonth").setAttribute('class', 'now');
+        }
+
+        function uptoDate_next() {
+            if(nowMonth.getMonth() + 1> 12){
+                document.getElementById("calYear").innerText = nowMonth.getFullYear()+1; 
+            } else {
+            document.getElementById("calYear").innerText = nowMonth.getFullYear(); }
+            document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 2); 
+            document.getElementById("calMonth").setAttribute('class', 'next');
+        }

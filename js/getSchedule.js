@@ -1,6 +1,8 @@
 function getSchedule(){
+    var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value;
-    var url = `http://localhost:3000/schedule?select_place=${selectPlace}&Calendar=now`; 
+    var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=now`;
+    
         
     fetch( url, {
         method: 'GET',
@@ -22,8 +24,11 @@ function getSchedule(){
 
 
 function nextCalendar(){
+    document.getElementById('place').innerHTML = ""
+    var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value;
-    var url = `http://localhost:3000/schedule?select_place=${selectPlace}&Calendar=next`; 
+
+    var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=next`; 
         
     fetch( url, {
         method: 'GET',
@@ -44,8 +49,8 @@ function nextCalendar(){
 };
 
 function prevCalendar(){
-    var selectPlace = document.getElementById('select_place').value;
-    var url = `http://localhost:3000/schedule?select_place=${selectPlace}&Calendar=prev`; 
+
+    var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=prev`; 
         
     fetch( url, {
         method: 'GET',

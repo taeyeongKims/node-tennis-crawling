@@ -22,30 +22,29 @@
                 <div id='map' style="width:1200px;height:400px;"></div>          
             </section>
             <section id="schedule">
-                <form action="http://localhost:3000/place" method="get" id="placeForm"></form>
+                <form action="http://localhost:3000/place" method="get" id="placeForm" onchange="partChange(); part_zoom();" >
                     <p>원하시는 테니스장을 선택해주세요.</p>
-                    <label for="select_place">구장 선택</label>
-                    <select id="select_place" name="select_place">
+                    <label for="select_part">구장 선택</label>
+                    <select id="select_part" name="select_part">
                         <option value="select">선택</option>
-                        <option name = 강서1 value="gangseo1">강서체육공원 테니스장(1번코트)</option>
-                        <option name = 강서2 value="gangseo2">강서체육공원 테니스장(2번코트)</option>
-                        <option name = 강서3 value="gangseo3">강서체육공원 테니스장(3번코트)</option>
-                        <option name = 강서4 value="gangseo4">강서체육공원 테니스장(4번코트)</option>
-                        <option name = 맥도 value="macdo">맥도생태공원 테니스장</option>
-                        <option name = 대저 value="daejeo">대저생태공원 테니스장</option>
-                        <option name = 화명 value="hwamyeong">화명생태공원 테니스장</option>
-                            <option name = 삼락 value="samnak">삼락생태공원 테니스장</option>
-                        <option name = 구덕1 value="gudeok1">구덕운동장 테니스장(1번코트)</option>
-                        <option name = 구덕2 value="gudeok2">구덕운동장 테니스장(2번코트)</option>
-                        <option name = 구덕3 value="gudeok3">구덕운동장 테니스장(3번코트)</option>
-                        <option name = 스포원 value="spoonePark">스포원 파크 테니스장</option>
+                        <option name = 강서 value="gangseo">강서 체육공원 테니스장</option>
+                        <option name = 맥도 value="macdo">맥도 생태공원 테니스장</option>
+                        <option name = 대저 value="daejeo">대저 생태공원 테니스장</option>
+                        <option name = 화명 value="hwamyeong">화명 생태공원 테니스장</option>
+                        <option name = 구덕 value="gudeok">구덕 운동장 테니스장</option>
+                        <option name = 스포원파크 value="spoonePark">스포원 파크 테니스장</option>
                         <option name = 삽량 value="sapryang">삽량 테니스장</option>
                         <option name = 사직구장 value="sajik">사직구장 종합 실내 테니스장</option>
                     </select>
-                    <br>
-                    <button type="button" onclick="getSchedule()">날짜 요청</button>
-                    <button type="button" onclick="getPlace()">시간 요청</button> 
                 </form>
+                <form>
+                    <select id="select_place" name="select_place">
+                        <option value="gangseo">123</option>
+                        <option value="gangseo">456</option>
+                    </select>
+                </form>
+                    <button type="button" onclick="getSchedule(),  uptoDate_now()">8월 요청</button>
+                    <button type="button" onclick="nextCalendar(),  uptoDate_next()">9월 요청</button>
                 <div id = "result">
                     <h1 id = "place"></h1>
                 </div>
@@ -92,5 +91,6 @@
   <script src="js/marker.js"></script>
   <script src="js/getplace.js"></script>
   <script src="js/getSchedule.js"></script>
+  <script src="js/partChange.js"></script>
 </body>
 </html>
