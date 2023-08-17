@@ -1,0 +1,16 @@
+.fc-col-header tbody tr{
+    width: 200px;
+    height: 50px;
+}
+.fc-scrollgrid-sync-table tbody tr td{
+    width: 50px !important;
+}
+.fc-daygrid-day:hover{
+    background-color: rgb(160, 236, 236);
+}
+.fc-day-past {
+    background-color: red;
+}
+.fc-day-future {
+    background-color: rgb(83, 169, 219);
+}

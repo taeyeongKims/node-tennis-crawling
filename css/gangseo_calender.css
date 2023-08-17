@@ -1,0 +1,22 @@
+.selectDay{
+    border: 2px solid rgb(83, 169, 219);
+    border-radius: 6px;
+    padding: 5px;
+    background-color: rgb(83, 169, 219);
+}
+
+.endDay {
+    background-color:rgb(233, 75, 75);
+    border-radius: 6px;
+    padding: 5px;
+}
+
+.selectDay:hover {
+    background-color: gray;
+ }
+ 
+ .selectDay:active {
+     background-color: lightgrey;
+     caret-color: transparent;
+ }
+

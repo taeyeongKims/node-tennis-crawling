@@ -1,0 +1,21 @@
+#Calendar caption{
+    width: 400px;
+}
+#Calendar thead tr th {
+    width: 28px;
+    height: 30px;
+    border: 1px solid rgb(248, 230, 206);
+}
+#Calendar tbody tr td {
+    width: 28px;
+    height: 30px;
+    border: 1px solid rgb(248, 230, 206);
+}
+#Calendar tbody tr th {
+    width: 40px;
+    height: 30px;
+    border: 1px solid rgb(248, 230, 206);
+}
+.possible {
+    background-color: rgb(83, 169, 219);
+}

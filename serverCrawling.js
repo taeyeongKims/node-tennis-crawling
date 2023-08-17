@@ -173,7 +173,7 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
   //   }
   // });
 
-  // 강서, 구덕, 대저, 맥도, 화명 캘린더 가져오기
+  // 강서, 구덕, 대저, 맥도, 화명 시간 가져오기
   if(selected_part !== "spoonePark" &&  selected_part !== "sapryang" && selected_part !== "sajik") {
     let url;
   switch(selected_part) {
@@ -196,15 +196,15 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
     case 'hwamyeong':  
         url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=55&progrmSn=214"
       break;
-   case 'samnak':  
+    case 'samnak':  
         url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=498&progrmSn=342";// url 바꿔야함
       break;
     case 'gudeok':  
-      if(selected_place == "gudeok1")
+      if(selected_place == "gudeok01")
         { url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=313"; } 
-      else if(selected_place == "gudeok2")
+      else if(selected_place == "gudeok02")
         { url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=312"; }
-      else if(selected_place == "gudeok3")
+      else if(selected_place == "gudeok03")
         { url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=311"; } 
       break;         
   }
@@ -266,7 +266,7 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
   await page.click("#beginTime");
 
   var courses = await timeParsing(page);
-  // browser.close();
+  browser.close();
   } 
   // 스포원파크 시간 가져오기
   else if(selected_part == "spoonePark") {
@@ -328,8 +328,8 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
     //     }, 100);
     //   }); }
 
-    await page.waitForSelector(".state_20");
-    const links = await page.$$('.state_20 > strong'); // 모든 strong 태그 선택
+    await page.waitForSelector(".state_10");
+    const links = await page.$$('.state_10 > strong'); // 모든 strong 태그 선택
     let foundIndex = -1;
  
     for (let i = 0; i < links.length; i++) {
@@ -355,7 +355,7 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
       }, 1000);
     });  
     var courses = await AtimeParsing(page, selected_part);
-    // browser.close();
+    browser.close();
   }
   //삽량 시간 가져오기
   else if(selected_part == "sapryang") {
@@ -424,6 +424,12 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
 async function scheduleParsing(selected_part, selected_place, calendarMonth) {
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
+
+  await page.setViewport({
+    width: 1280, // 원하는 너비 값으로 변경
+    height: 800, // 원하는 높이 값으로 변경
+  });
+
   switch(selected_part){
     case "spoonePark" :
       sessionData = sessionDatas[1];
@@ -479,11 +485,11 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
         url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=55&progrmSn=214";
     } else if(selected_part == "samnak"){
         url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=498&progrmSn=342";// url 바꿔야함
-    } else if(selected_place == "gudeok1"){
+    } else if(selected_place == "gudeok01"){
         url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=313";
-    } else if(selected_place == "gudeok2"){
+    } else if(selected_place == "gudeok02"){
         url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=312";
-    } else if(selected_place == "gudeok3"){
+    } else if(selected_place == "gudeok03"){
         url = "https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=311";
     }
     await page.goto(url); 
@@ -508,7 +514,7 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
       }); }
         
      $tableCalender = await calenderParsing(page);
-    // browser.close();
+    browser.close();
   }
   // 스포원 캘린더 가져오기
   else if(selected_part == "spoonePark") {
@@ -574,7 +580,7 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
       }); } 
 
      $tableCalender = await AcalenderParsing(selected_part, page);
-    // browser.close();
+    browser.close();
   }
   // 삽량 캘린더 가져오기
   else if(selected_part == "sapryang"){
@@ -621,20 +627,66 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
         }, 100);
       }); } 
     $tableCalender = await AcalenderParsing(selected_part, page);
-    // browser.close();
+    browser.close();
   }
   // 사직구장 캘린더 가져오기
   else if(selected_part == "sajik"){
 
     let url = "https://www.sajiktennis.kr/html/?pCode=7";
 
+    let selectIndex;
+
+    switch(selected_place) {
+      case 'sajik01':
+        selectIndex = 0;
+        break;
+      case 'sajik02':
+        selectIndex = 1;
+        break;
+      case 'sajik03':
+        selectIndex = 2;
+        break;
+      case 'sajik04':
+        selectIndex = 3;
+        break;
+      case 'sajik05':
+        selectIndex = 4;
+        break;
+      case 'sajik06':
+        selectIndex = 5;
+        break;
+      case 'sajik07':
+        selectIndex = 6;
+        break;
+    }
+
+    const selector =  `.date-picker li:nth-child(${selectIndex+1})`
+
+      
     await page.goto(url); 
 
-    if (calendarMonth == "now"){
-      await page.waitForSelector(".calendar-body");
-    }
+    // await page.waitForSelector(".date-picker");
+    // const links = await page.$$('.date-picker li'); // 모든 요일 li 선택
+
+    // const desiredChild = links[selectIndex];
+    // await desiredChild.click();
+    await page.click(selector);
+    
+    await new Promise(resolve => {
+      setTimeout(() => {
+        // 이제 Promise 내부의 waitForFunction을 기다립니다.
+        page.waitForFunction(() => {
+          return true;
+        }).then(() => {
+          resolve(); // waitForFunction이 완료되면 Promise를 해결(resolve)합니다.
+        });
+      }, 1500);
+    });  
+
+    await page.waitForSelector(".calendar-body");
+
     $tableCalender = await AcalenderParsing(selected_part, page);
-    // browser.close();
+    browser.close();
   }
   return $tableCalender;
 }
@@ -646,12 +698,26 @@ async function timeParsing(page) {
   const $reserveList = $("#beginTime > option");
 
   let courses = [];
+
+  $reserveList.each((index, node) => {   
+    let time = $(node).text();
+    let timeMatch  = time.match(/(\d{2}):(\d{2})/);
+    if (timeMatch) {
+      courses.push(timeMatch[0]);
+    }
+  })
+
   $reserveList.each((index, node) => {
-      let time = $(node).text();
-      console.log(time);
-      courses.push(time);
+      let string = $(node).text();
+      let stringMatch = string.match(/\[(.*?)\]/);
+      if (stringMatch) {
+        courses.push(stringMatch[0]);
+      } else {
+          courses.push("예약 가능");
+        }
   });
-  courses.shift();
+  courses.splice(6, 1);
+  // courses.shift();
   return courses;
 }
 
@@ -665,13 +731,17 @@ async function AtimeParsing(page, selected_part) {
     const $reserveList = $(".txtcenter > tr > td");
 
     $reserveList.each((index, node) => {
-      if(index % 5 == 2 || index % 5 == 4){
-        let reserve = $(node).text();
-        console.log(reserve);
-        courses.push(reserve);
-        console.log(courses);
+      if(index % 5 == 2){
+        let time = $(node).text();
+        courses.push(time);
       }
     }); 
+    $reserveList.each((index, node) => {
+      if(index % 5 == 4){
+        let reserve = $(node).text();
+        courses.push(reserve);
+      }
+    });
     return courses;
   }
   else if(selected_part == "sapryang"){
@@ -711,11 +781,16 @@ async function AtimeParsing(page, selected_part) {
             break;          
         }
     });
+    courses = courses.concat(TimeArray.slice(0, 7), checkingTimeArray.slice(0, 7));
+    
+    console.log(courses);
 
-    for (let i = 0; i < 7; i++) {
-      courses.push(TimeArray[i]);
-      courses.push(checkingTimeArray[i]);
-    }
+  //   for (let i = 0; i < 7; i++) {
+  //     courses.push(TimeArray[i]);
+  //   }
+  //   for (let i = 0; i < 7; i++) {
+  //     courses.push(checkingTimeArray[i]);
+  //   }
     return courses;  
   } 
 }
@@ -723,8 +798,10 @@ async function AtimeParsing(page, selected_part) {
 async function calenderParsing(page) {
   const html = await page.content();
   const $ = cheerio.load(html);
+
   let endDay = [];
   const $endDayList = $(".endDay");
+
   $endDayList.each((index, node) => {
     endDay[index] = $(node).text()
   });
@@ -733,7 +810,19 @@ async function calenderParsing(page) {
     $(node).text(endDay[index]);
   });
 
-  $tableCalender = $(".tableCalendar.cal1").html();
+  const $calendarList = $(".selectDay a");
+
+  $calendarList.each((index, node) => {
+    $(node).attr('onclick','btnActive(this); choiceDay(this)')
+  });
+
+  $removeHrefList = $(".selectDay a");
+
+  $removeHrefList.each((index, node) => {
+    $(node).removeAttr("href");
+  });
+
+  $tableCalender =  $(".tableCalendar.cal1").html();
 
     return $tableCalender;
 }
@@ -742,12 +831,28 @@ async function calenderParsing(page) {
     const html = await page.content();
     const $ = cheerio.load(html);
     if(selected_part == "spoonePark"){
-      //.state_20인 태그에 btnAcitve() 추가
-      const $calendarList = await page.$$(".state_20 > strong");
+
+      const $removeHrefList = await page.$$(".fit  a");
+
+      //a 태그의 href 제거
+      for(element of $removeHrefList){
+        await element.evaluate((el) => {
+          el.removeAttribute("href");
+        });
+      }
+      // a 태그 하위 요소인 span 제거
+      const $removeSpanList = await page.$$(".fit span");
+      for(element of $removeSpanList){
+        await element.evaluate((el) => {
+          el.remove();
+        });
+      }
+      //.state_10인 태그에 btnAcitve() 추가
+      const $calendarList = await page.$$(".state_10");
 
       for(element of $calendarList){
         await element.evaluate((el) => {
-          el.setAttribute("onclick", "btnActive(this)")
+          el.setAttribute("onclick", "btnActive(this); choiceDay(this)");
         });
       }
 
@@ -758,10 +863,48 @@ async function calenderParsing(page) {
     else if(selected_part == "sapryang"){
 
       const $calendarList = await page.$$(".fc-day-future");
+      const $tdCalendarList = await page.$$(".fc-col-header tbody th");
+
+      const widthArray = [".fc-col-header", ".fc-daygrid-body", ".fc-scrollgrid-sync-table"];
+      const backgroundArray = [".fc-day-past", ".fc-day-today", ".fc-day-disabled"];
+
+      const widthElementsArray = await Promise.all(
+        widthArray.map(selector => page.$$(selector))
+      );
+    
+      for (const elements of widthElementsArray) {
+        console.log(elements);
+        for (const element of elements) {
+          // Process each element here
+            await element.evaluate((el) => {
+            el.setAttribute("style", "width:400px;");
+          });
+        }
+      }
+
+       const BgElementsArray = await Promise.all(
+        backgroundArray.map(selector => page.$$(selector))
+      );
+    
+      for (const elements of BgElementsArray) {
+        console.log(elements);
+        for (const element of elements) {
+          // Process each element here
+            await element.evaluate((el) => {
+            el.setAttribute("style", "background: rgb(255, 0, 0);");
+          });
+        }
+      }
 
       for(element of $calendarList){
         await element.evaluate((el) => {
-          el.setAttribute("onclick", "btnActive(this)");
+          el.setAttribute("onclick", "btnActive(this); choiceDay(this)");
+        });
+      }
+
+      for(element of $tdCalendarList){
+        await element.evaluate((el) => {
+          el.style.width = '50px';
         });
       }
 
@@ -779,20 +922,71 @@ async function calenderParsing(page) {
 
       return $tableCalender;
 
-      // $tableCalender = await page.evaluate(() => {
-      //   const elements = document.querySelectorAll(".fc-scrollgrid");
-      //   return Array.from(elements).map(element => element.innerHTML);
-      // });
-      //$('.fc-daygrid-event-harness').remove();
-
     }
     else if(selected_part == "sajik"){      
       const $completeList = await page.$$(".reserve-complete");
 
+      const $possibleList = await page.$$(".reserve-apply");
+
+      const $theadReserveList = await page.$$(".calendar-body thead tr th");
+      const $tbodyReserveList = await page.$$(".calendar-body tbody tr th");
+
+      // $reserveList.each((index, node) => { 
+      //   let reserve = $(node).text();
+      //   timeMatch  = reserve.match(/(\d{2}):(\d{2})/); });
+
       for (const element of $completeList) {
-        await element.evaluate((el) => {el.textContent = "마감"
+        await element.evaluate((el) => {el.textContent = "X"
         });
       }
+      for (const element of $possibleList) {
+        await element.evaluate((el) => {
+          el.textContent = "O"
+          el.setAttribute("class", "possible");
+        });
+      }
+
+      //글자 수 줄이기
+      let timeMatch = [];
+
+      for (const element of $theadReserveList) {
+        await element.evaluate((el) => {
+          let reserve = el.textContent;
+          timeMatch = reserve.match(/\d+/);
+          if(timeMatch)
+            el.textContent = timeMatch[0];
+        });
+      }
+      // ~(\d{2}):00/
+      for (const element of $tbodyReserveList) {
+        await element.evaluate((el) => {
+          let reserve = el.textContent;
+          timeMatch = reserve.match(/(\d{2}):00/);
+          if(timeMatch)
+            el.textContent = timeMatch[0];
+          // if (timeMatch) {
+          //   const extracted = `${timeMatch[1]} ~ ${timeMatch[2]}`;
+          //   el.textContent = extracted;
+          // }
+        });
+      }
+      //스타일 width 400px로 하기
+
+      widthArray = [".calendar-body caption", ".calendar-body thead", ".calendar-body tbody"];
+
+      const elementsArray = await Promise.all(
+        widthArray.map(selector => page.$$(selector))
+      );
+    
+      for (const elements of elementsArray) {
+        for (const element of elements) {
+          // Process each element here
+            await element.evaluate((el) => {
+            el.setAttribute("style", "width:400px;");
+          });
+        }
+      }
+
       $tableCalender = await page.evaluate(() => {
         return $(".calendar-body.pc").html();
       });

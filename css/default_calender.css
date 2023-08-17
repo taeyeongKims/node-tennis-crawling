@@ -1,0 +1,92 @@
+table {
+    margin: auto;
+    display: block;
+}
+.calenderWrap > div:nth-child(1){
+    font-size: 25px;
+}
+#Calendar tr {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 43px;
+}
+#Calendar td {
+  width: 40px;
+  height: 40px;
+}
+.selectDay:hover {
+   background-color: gray;
+}
+.selectDay:active {
+    background-color: lightgrey;
+    caret-color: transparent;
+}
+.Calendar { 
+    text-align: center;
+    margin: 0 auto; 
+}
+
+.Calendar>thead>tr:first-child>td { font-weight: bold; }
+
+.Calendar>thead>tr:last-child>td {
+    background-color: gray;
+    color: white;
+}        
+
+.pastDay{ 
+    background-color: rgb(233, 75, 75);
+    border: 2px solid rgb(233, 75, 75);
+    border-radius: 6px;
+}
+
+.today{            
+    background-color: white;            
+}
+
+.futureDay{            
+    background-color: white;
+}
+
+/* 선택 날짜 동그라미 */
+
+.selectDay.choiceDay, .futureDay.choiceDay, .today.choiceDay{            
+    background-color: white; 
+    border-radius: 100%;          
+    border-color: rgb(0, 0, 0);
+    border-width: 3px;
+    border-style: solid;
+    color: black;
+    cursor: pointer;
+    caret-color: transparent;
+}
+
+.selectDay{
+    border: 2px solid rgb(83, 169, 219);
+    border-radius: 6px;          
+    background-color: rgb(83, 169, 219);            
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* 선택 가능 날짜 색상 */
+.selectMark{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 10%;
+    border: 2px solid rgb(83, 169, 219);
+    background-color: rgb(83, 169, 219);  
+    line-height: 36px;
+}
+
+/* 선택 불가 날짜 색상 */
+.disableMark{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-left: 2px;
+    border-radius: 10%;
+    background-color: rgb(233, 75, 75);
+    border: 2px solid rgb(233, 75, 75);
+    line-height: 36px;
+}

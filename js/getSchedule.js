@@ -2,7 +2,6 @@ function getSchedule(){
     var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value;
     var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=now`;
-    
         
     fetch( url, {
         method: 'GET',

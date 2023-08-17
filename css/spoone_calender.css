@@ -1,0 +1,27 @@
+.choiceDay strong{            
+    background-color: white; 
+    border-radius: 100%;          
+    border-color: skyblue;
+    border-width: 3px;
+    border-style: solid;
+    color: black !important;
+    cursor: pointer;
+    caret-color: transparent;
+}
+
+[data-state_cd="20"] {
+    background-color: rgb(233, 75, 75);
+    border-radius: 2px;
+}
+
+[data-state_cd="10"]:hover {
+    background-color: gray;
+}
+[data-state_cd="10"] {
+    border: 2px solid rgb(83, 169, 219);
+    border-radius: 2px;
+    background-color: rgb(83, 169, 219);
+}
+td:active {
+    background-color: lightgrey;
+ }
