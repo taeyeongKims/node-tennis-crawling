@@ -2,7 +2,15 @@ function getSchedule(){
     var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value;
     var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=now`;
-        
+
+    var placeTdElements = document.querySelectorAll('#place td');
+    for (var i = 0; i < placeTdElements.length; i++) {
+    var tdElement = placeTdElements[i];
+    tdElement.parentNode.removeChild(tdElement);
+    }   
+
+    showLoadingSpinner(); // 스피너 생성
+
     fetch( url, {
         method: 'GET',
         })
@@ -13,11 +21,13 @@ function getSchedule(){
             return response.text();
             })
     .then(function(html) {
-        document.getElementById('Calendar').innerHTML = html
+        document.getElementById('Calendar').innerHTML = html;
+        hideLoadingSpinner();  // 스피너 숨김
         })
         .catch(function(error) {
          // 에러 처리
             console.error(error);
+            hideLoadingSpinner(); // 오류 발생 시 스피너 숨김
         });
 };
 
@@ -28,7 +38,9 @@ function nextCalendar(){
     var selectPlace = document.getElementById('select_place').value;
 
     var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=next`; 
-        
+    
+    showLoadingSpinner(); // 스피너 생성
+
     fetch( url, {
         method: 'GET',
         })
@@ -40,10 +52,12 @@ function nextCalendar(){
             })
     .then(function(html) {
         document.getElementById('Calendar').innerHTML = html
+        hideLoadingSpinner();  // 스피너 숨김
         })
         .catch(function(error) {
          // 에러 처리
             console.error(error);
+            hideLoadingSpinner();  // 스피너 숨김
         });
 };
 

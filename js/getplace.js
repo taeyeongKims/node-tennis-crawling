@@ -1,9 +1,9 @@
  function getPlace(date_value){
 
-    var placeTdElements = document.querySelectorAll('#place td');
-    for (var i = 0; i < placeTdElements.length; i++) {
-    var tdElement = placeTdElements[i];
-    tdElement.parentNode.removeChild(tdElement);
+    var placeTrElements = document.querySelectorAll('#place tr');
+    for (var i = 0; i < placeTrElements.length; i++) {
+    var trElement = placeTrElements[i];
+    trElement.parentNode.removeChild(trElement);
     }   
     
     var selectPart = document.getElementById('select_part').value;
@@ -11,6 +11,8 @@
     let getMonth = document.getElementById("calMonth").classList;
     var url = `http://localhost:3000/place?select_part=${selectPart}&select_place=${selectPlace}&valueToFind=${date_value}&Calendar=${getMonth}`;
         
+    showLoadingSpinner(); // 스피너 생성
+
     fetch( url, {
         method: 'GET',
         })
@@ -21,7 +23,6 @@
             return response.json();
             })
     .then(function(data) {
-        console.log(data)
         var table = document.getElementById('place');
 
         var table1 = document.createElement('tr');
@@ -35,7 +36,6 @@
 
         // data.time 정보 다음에 불러올 때 초기화 시키기 해야함
         var dataArrayLength = data.time.length; 
-        console.log(dataArrayLength);
         if(dataArrayLength<14){
             var lineNum = 3;
         } else {
@@ -81,17 +81,12 @@
             td4Elements[i].style.width = bottom_tdWidth + 'px';
         }
 
-
-        // // Loop through each th element
-        // thElements.forEach((thElement, index) => {
-        // thElement.textContent = data.time[index]; 
-        // console.log(data);
-        // // 웹 페이지에 데이터를 추가하거나 필요한 작업 수행
-        // })
+        hideLoadingSpinner();  // 스피너 숨김
     })
      .catch(function(error) {
          // 에러 처리
             console.error(error);
+            hideLoadingSpinner(); // 오류 발생 시 스피너 숨김
     })
 };
 
@@ -100,7 +95,6 @@ function fn_resveInfoFee(date, className){
     // return date_value;
 }
 function btnActive(e) {
-    date_value = parseInt(e.innerText);
-    console.log(date_value);
+    date_value = parseInt(e.innerText); 
     getPlace(date_value);
 }

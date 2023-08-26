@@ -1,3 +1,9 @@
+* {
+	font-family: 'Black Han Sans', sans-serif;
+  font-family: 'Gothic A1', sans-serif;
+
+}
+
 #container {
     margin:0 auto;/* 화면 중앙에 배치 */
     width:1200px;    /* 너비 */    
@@ -25,7 +31,7 @@
     text-align: center;
   }
 form{
-  /* display: inline-block; */
+  display: inline-block;
   margin-bottom: 10px;
 }
 .text
@@ -39,27 +45,19 @@ form{
 .hidden{
     display: none;
 }
-/* select {
-  width: auto;
-  height: auto;
-  padding: 10px;
-  text-align: center;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  appearance: none;
-  
-} */
 select {
-  width: 200px;
-  height: 30px;
+  width: 170px;
+  height: 40px;
   padding-left: 10px;
   font-size: 18px;
-  color: #006fff;
+  color: black;
   border: 1px solid gray;
   border-radius: 3px;
   overflow-y: scroll;
+  border-radius: 11px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
   }
 
 select option {
@@ -69,16 +67,19 @@ select option {
   padding : 10px; */ 
 }
 [type="button"] {
-  width: 150px;
-  height: 50px;
+  width: 170px;
+  height: 40px;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 11px;
+  border-width: 1px;
   font-size: large;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 /* 버튼 사이 공간  */
-/* #thisMonth {
-  margin-right: 20px;
-} */
+#thisMonth {
+  margin-right: 10px;
+}
 
 [type="button"]:hover{
   background-color: rgb(180, 174, 174);
@@ -102,14 +103,11 @@ select option {
   position: relative;
   bottom: 0px; left: 0px;
   width: 400px;
-  height: auto;
+  height: 80px;
   /* background-image: url('테니스공.png'); */
-  background-color: rgb(60, 187, 60);
+  /* background-color: rgb(60, 187, 60); */
   background-repeat: no-repeat;
   background-size: cover;
-}
-#logo h1 {
-  color: white;
 }
 .icon {
   position: relative;
@@ -129,4 +127,12 @@ select option {
 .check {
   border: 1px solid black;
   margin-bottom: 10px;
+}
+#info_image img{
+  max-width: 100%;
+  width: 400px;
+}
+
+#info_text {
+  text-align: left;
 }

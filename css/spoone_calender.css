@@ -25,3 +25,15 @@
 td:active {
     background-color: lightgrey;
  }
+
+ .state_end {
+    background-color: white;
+ }
+
+ .prev_month {
+    background-color: white;
+ }
+
+ .next_month {
+    background-color: white;
+ }

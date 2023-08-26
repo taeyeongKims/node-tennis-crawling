@@ -6,8 +6,7 @@ table {
     font-size: 25px;
 }
 #Calendar tr {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+   border: solid 1px rgb(248, 230, 206);
     height: 43px;
 }
 #Calendar td {
@@ -21,9 +20,10 @@ table {
     background-color: lightgrey;
     caret-color: transparent;
 }
-.Calendar { 
+#Calendar { 
     text-align: center;
     margin: 0 auto; 
+    border-collapse: collapse;
 }
 
 .Calendar>thead>tr:first-child>td { font-weight: bold; }
@@ -34,8 +34,7 @@ table {
 }        
 
 .pastDay{ 
-    background-color: rgb(233, 75, 75);
-    border: 2px solid rgb(233, 75, 75);
+    background-color: white;
     border-radius: 6px;
 }
 
@@ -50,11 +49,11 @@ table {
 /* 선택 날짜 동그라미 */
 
 .selectDay.choiceDay, .futureDay.choiceDay, .today.choiceDay{            
-    background-color: white; 
+    background-color: gray; 
     border-radius: 100%;          
-    border-color: rgb(0, 0, 0);
+    /* border-color: rgb(0, 0, 0);
     border-width: 3px;
-    border-style: solid;
+    border-style: solid; */
     color: black;
     cursor: pointer;
     caret-color: transparent;
@@ -77,6 +76,7 @@ table {
     border: 2px solid rgb(83, 169, 219);
     background-color: rgb(83, 169, 219);  
     line-height: 36px;
+    margin-right: 10px;
 }
 
 /* 선택 불가 날짜 색상 */
@@ -89,4 +89,10 @@ table {
     background-color: rgb(233, 75, 75);
     border: 2px solid rgb(233, 75, 75);
     line-height: 36px;
+    margin-left: 60px;
+    margin-right: 10px;
+}
+
+#place tr:nth-child(1), #place tr:nth-child(3){
+    background-color: lightgray;
 }

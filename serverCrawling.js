@@ -18,7 +18,6 @@ app.get('/schedule', async (req, res) => {
   const selected_part = req.query.select_part;
   const selected_place = req.query.select_place;
   const calendarMonth = req.query.Calendar;
-  console.log(calendarMonth);
 
   try {
       $tableCalender = await scheduleParsing(selected_part, selected_place, calendarMonth);
@@ -51,7 +50,7 @@ app.get('/place', async(req, res) =>{
 
  //로그인 및 세션 정보 얻기 
 async function openWebPage() {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
 
   // 강서, 구덕, 대저, 화명, 맥도 로그인정보 저장
@@ -313,20 +312,20 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
     
     await page.goto(url); 
 
-    // if(calendarMonth == "next"){
-    //   await page.waitForSelector(".next_month");
-    //   await page.click('.next_month');
-    //     // setTimeout을 Promise로 감싸고 await 사용
-    //   await new Promise(resolve => {
-    //     setTimeout(() => {
-    //       // 이제 Promise 내부의 waitForFunction을 기다립니다.
-    //       page.waitForFunction(() => {
-    //         return true;
-    //       }).then(() => {
-    //         resolve(); // waitForFunction이 완료되면 Promise를 해결(resolve)합니다.
-    //       });
-    //     }, 100);
-    //   }); }
+    if(calendarMonth == "next"){
+      await page.waitForSelector(".next_month");
+      await page.click('.next_month');
+        // setTimeout을 Promise로 감싸고 await 사용
+      await new Promise(resolve => {
+        setTimeout(() => {
+          // 이제 Promise 내부의 waitForFunction을 기다립니다.
+          page.waitForFunction(() => {
+            return true;
+          }).then(() => {
+            resolve(); // waitForFunction이 완료되면 Promise를 해결(resolve)합니다.
+          });
+        }, 100);
+      }); }
 
     await page.waitForSelector(".state_10");
     const links = await page.$$('.state_10 > strong'); // 모든 strong 태그 선택
@@ -392,11 +391,12 @@ async function reserveParsing(selected_part, selected_place, valueToFind, calend
     await page.waitForSelector(".fc-daygrid-day-number");
     const links = await page.$$('.fc-daygrid-day-number'); // 모든 a 태그 선택
     let foundIndex = -1;
-    
+
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
-      const text = await link.evaluate(node => node.textContent);
-      if (text === valueToFind) {
+      const text = await link.evaluate(node => parseInt(node.textContent));
+
+      if (text == valueToFind) {
         foundIndex = i; // 일치하는 링크 요소의 인덱스를 foundIndex에 할당
         break; // 반복문 종료
       }
@@ -513,7 +513,7 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
         }, 2000);
       }); }
         
-     $tableCalender = await calenderParsing(page);
+     $tableCalender = await calenderParsing(page, selected_part);
     browser.close();
   }
   // 스포원 캘린더 가져오기
@@ -580,7 +580,7 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
       }); } 
 
      $tableCalender = await AcalenderParsing(selected_part, page);
-    browser.close();
+    // browser.close();
   }
   // 삽량 캘린더 가져오기
   else if(selected_part == "sapryang"){
@@ -627,7 +627,7 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
         }, 100);
       }); } 
     $tableCalender = await AcalenderParsing(selected_part, page);
-    browser.close();
+    // browser.close();
   }
   // 사직구장 캘린더 가져오기
   else if(selected_part == "sajik"){
@@ -686,7 +686,7 @@ async function scheduleParsing(selected_part, selected_place, calendarMonth) {
     await page.waitForSelector(".calendar-body");
 
     $tableCalender = await AcalenderParsing(selected_part, page);
-    browser.close();
+    // browser.close();
   }
   return $tableCalender;
 }
@@ -701,7 +701,7 @@ async function timeParsing(page) {
 
   $reserveList.each((index, node) => {   
     let time = $(node).text();
-    let timeMatch  = time.match(/(\d{2}):(\d{2})/);
+    const timeMatch  = time.match(/(\d{2}):(\d{2})/);
     if (timeMatch) {
       courses.push(timeMatch[0]);
     }
@@ -716,7 +716,7 @@ async function timeParsing(page) {
           courses.push("예약 가능");
         }
   });
-  courses.splice(6, 1);
+  courses.splice($reserveList.length, 1);
   // courses.shift();
   return courses;
 }
@@ -724,7 +724,6 @@ async function timeParsing(page) {
 async function AtimeParsing(page, selected_part) {
   const html = await page.content();
   const $ = cheerio.load(html);
-  console.log(selected_part);
 
   if(selected_part == "spoonePark"){
     let courses= [];
@@ -756,7 +755,6 @@ async function AtimeParsing(page, selected_part) {
         let reserve = $(node).text();
         let timeMatch  = reserve.match(/(\d{2}):(\d{2}) ~ \d{2}:\d{2}/);
         let hour = parseInt(timeMatch[1], 10); 
-
         switch(hour){
           case 8 :
             checkingTimeArray.splice(0,1,"마감");
@@ -782,20 +780,11 @@ async function AtimeParsing(page, selected_part) {
         }
     });
     courses = courses.concat(TimeArray.slice(0, 7), checkingTimeArray.slice(0, 7));
-    
-    console.log(courses);
-
-  //   for (let i = 0; i < 7; i++) {
-  //     courses.push(TimeArray[i]);
-  //   }
-  //   for (let i = 0; i < 7; i++) {
-  //     courses.push(checkingTimeArray[i]);
-  //   }
     return courses;  
   } 
 }
 
-async function calenderParsing(page) {
+async function calenderParsing(page, selected_part) {
   const html = await page.content();
   const $ = cheerio.load(html);
 
@@ -822,6 +811,27 @@ async function calenderParsing(page) {
     $(node).removeAttr("href");
   });
 
+  let title;
+
+  switch(selected_part) {
+    case "gangseo" :
+      title = "강서 체육공원 테니스장"
+      break;
+    case "macdo" :
+      title = "맥도 생태공원 테니스장"
+      break;
+    case "daejeo" :
+      title = "대저 생태공원 테니스장"
+      break;
+    case "hwamyeong" :
+      title = "화명 생태공원 테니스장"
+      break;
+    case "gudeok" :
+      title = "구덕 운동장 테니스장"
+      break;
+  }
+  $(".tableCalendar caption").text(title);
+
   $tableCalender =  $(".tableCalendar.cal1").html();
 
     return $tableCalender;
@@ -830,6 +840,7 @@ async function calenderParsing(page) {
   async function AcalenderParsing(selected_part, page) {
     const html = await page.content();
     const $ = cheerio.load(html);
+    
     if(selected_part == "spoonePark"){
 
       const $removeHrefList = await page.$$(".fit  a");
@@ -840,6 +851,14 @@ async function calenderParsing(page) {
           el.removeAttribute("href");
         });
       }
+      //지난날 class 부여
+      const $parentSpanList = await page.$$(".status_end");
+      for(element of $parentSpanList){
+        await element.evaluate((el) => {
+          const parentAtag = el.parentNode;
+          parentAtag.parentNode.setAttribute("class", "state_end");
+        });
+      }
       // a 태그 하위 요소인 span 제거
       const $removeSpanList = await page.$$(".fit span");
       for(element of $removeSpanList){
@@ -847,12 +866,21 @@ async function calenderParsing(page) {
           el.remove();
         });
       }
+
       //.state_10인 태그에 btnAcitve() 추가
       const $calendarList = await page.$$(".state_10");
 
       for(element of $calendarList){
         await element.evaluate((el) => {
           el.setAttribute("onclick", "btnActive(this); choiceDay(this)");
+        });
+      }
+
+      //caption 테니스장 이름으로 변경
+      const captionElement = await page.$$(".fit caption");
+      for(element of captionElement){
+        await element.evaluate((el) => {
+          el.textContent = "스포원 파크 테니스장";
         });
       }
 
@@ -873,7 +901,6 @@ async function calenderParsing(page) {
       );
     
       for (const elements of widthElementsArray) {
-        console.log(elements);
         for (const element of elements) {
           // Process each element here
             await element.evaluate((el) => {
@@ -887,11 +914,10 @@ async function calenderParsing(page) {
       );
     
       for (const elements of BgElementsArray) {
-        console.log(elements);
         for (const element of elements) {
           // Process each element here
             await element.evaluate((el) => {
-            el.setAttribute("style", "background: rgb(255, 0, 0);");
+            el.setAttribute("style", "background: rgb(255, 255, 255);");
           });
         }
       }
@@ -907,6 +933,18 @@ async function calenderParsing(page) {
           el.style.width = '50px';
         });
       }
+
+      //caption 추가하여 테니스장 이름으로 변경
+      await page.evaluate(()=> {
+        var table = document.querySelector('.fc-scrollgrid');
+        var caption = document.createElement('caption');
+        caption.textContent = "삽량 테니스장";
+        table.appendChild(caption);
+        const firstChild = table.firstChild;
+
+        //첫번째 요소로 넣기
+        table.insertBefore(caption, firstChild);
+      })
 
       const $tableCalender = await page.evaluate(() => {
         const fcScrollgrid = document.querySelector('.fc-scrollgrid');
@@ -985,6 +1023,14 @@ async function calenderParsing(page) {
             el.setAttribute("style", "width:400px;");
           });
         }
+      }
+
+      //caption 테니스장 이름으로 변경
+      const captionElement = await page.$$(".calendar-body caption");
+      for(element of captionElement){
+        await element.evaluate((el) => {
+          el.textContent = "부산 종합 실내 테니스장";
+        });
       }
 
       $tableCalender = await page.evaluate(() => {

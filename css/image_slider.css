@@ -1,0 +1,18 @@
+img {
+    width: 400px;
+    height: 400px;
+}
+.main_img {
+    display: block;
+    max-width: 400px;
+    height: 200px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.sub_img{
+    display: inline;
+    max-width: 198px;
+    max-height: 120px
+}

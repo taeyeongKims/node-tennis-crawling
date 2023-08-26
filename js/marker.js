@@ -1,10 +1,11 @@
 
 var mapOptions = {
     center: new naver.maps.LatLng(35.228785159506995, 129.0758026631008),
-    zoom: 10
+    zoom: 10,
 };
 var mapDiv = document.getElementById("map")
 var map = new naver.maps.Map(mapDiv, mapOptions);
+var HOME_PATH = window.HOME_PATH || 'C:\Users\User\AppData\Local\Programs\Microsoft VS Code\bin';
 
 var bounds = map.getBounds(),
     southWest = bounds.getSW(),
@@ -86,7 +87,13 @@ var positions = [
           position: positions[i].latlng,
           map: map,
           title: positions[i].title,
-          clickable: true, 
+          clickable: true,
+          icon: {
+            url: 'css/지도 마커80px(테니스공).png',
+            size: new naver.maps.Size(47, 47),
+            origin: new naver.maps.Point(16, 16),
+            anchor: new naver.maps.Point(16, 16)
+        } 
         });
 
       var infowindow = new naver.maps.InfoWindow({
@@ -154,7 +161,7 @@ var positions = [
           break;
         case 'macdo':  
           map.setCenter(positions[1].latlng);
-          map.setZoom(13);
+          map.setZoom(15);
           break;
         case 'daejeo':  
           map.setCenter(positions[2].latlng);
