@@ -9,7 +9,7 @@
     var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value; 
     let getMonth = document.getElementById("calMonth").classList;
-    var url = `http://localhost:3000/place?select_part=${selectPart}&select_place=${selectPlace}&valueToFind=${date_value}&Calendar=${getMonth}`;
+    var url = `http://localhost:8080/place?select_part=${selectPart}&select_place=${selectPlace}&valueToFind=${date_value}&Calendar=${getMonth}`;
         
     showLoadingSpinner(); // 스피너 생성
 

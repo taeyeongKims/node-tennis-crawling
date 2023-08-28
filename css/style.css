@@ -6,7 +6,7 @@
 
 #container {
     margin:0 auto;/* 화면 중앙에 배치 */
-    width:1200px;    /* 너비 */    
+    width:400px;    /* 너비 */    
     background-color: #fff;
     display: flex;
     flex-direction: column;

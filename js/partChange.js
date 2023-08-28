@@ -111,6 +111,7 @@ function partChange() {
             thisMonthButton.style.width = "170px";
         }
     });
+
 }
 
 function getDayName(dayIndex) {

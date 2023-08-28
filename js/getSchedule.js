@@ -1,7 +1,7 @@
 function getSchedule(){
     var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value;
-    var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=now`;
+    var url = `http://localhost:8080/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=now`;
 
     var placeTdElements = document.querySelectorAll('#place td');
     for (var i = 0; i < placeTdElements.length; i++) {
@@ -37,7 +37,7 @@ function nextCalendar(){
     var selectPart = document.getElementById('select_part').value;
     var selectPlace = document.getElementById('select_place').value;
 
-    var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=next`; 
+    var url = `http://localhost:8080/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=next`; 
     
     showLoadingSpinner(); // 스피너 생성
 
@@ -63,7 +63,7 @@ function nextCalendar(){
 
 function prevCalendar(){
 
-    var url = `http://localhost:3000/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=prev`; 
+    var url = `http://localhost:8080/schedule?select_part=${selectPart}&select_place=${selectPlace}&Calendar=prev`; 
         
     fetch( url, {
         method: 'GET',

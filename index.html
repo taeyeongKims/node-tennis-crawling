@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit">
+    <title>테니스 코드 예약 현황 확인</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=rjv2lbv5op"></script>
+    <script src="js/reserveSchedule.js"></script>
+    <script src="js/test.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/default_calender.css">
+    <link rel="stylesheet" href="css/spoone_calender.css">
+    <link rel="stylesheet" href="css/gangseo_calender.css">
+    <link rel="stylesheet" href="css/sapryang.css">
+    <link rel="stylesheet" href="css/sajik.css">
+    <link rel="stylesheet" href="css/spinner.css">
+    <link rel="stylesheet" href="css/image_slider.css">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gothic+A1:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div id="logo">
+                <img src="css/로고T3.png" alt="" class="icon">
+                <h1>테니스 예약 확인</h1>
+            </div>
+        </header>
+        <div id="loading-spinner" class="hidden">
+            <div class="spinner"></div>
+        </div>
+        <main class="contents">
+            <section id="map_contents">
+                <div id='map' style="width:400px;height:300px;"></div>
+            </section>
+            <div>
+                <img src="css/배너 사진.png" style="width: 400px; height: 100px;" alt="">
+            </div>
+            <section id="schedule">
+                <div>
+                <form action="http://localhost:8080/place" method="get" id="placeForm" onchange= "combinedFunction()">
+                    <label for="select_part"></label>
+                    <select id="select_part" name="select_part">
+                        <option value="select">선택</option>
+                        <option name = 강서 value="gangseo">강서 체육공원</option>
+                        <option name = 맥도 value="macdo">맥도 생태공원</option>
+                        <option name = 대저 value="daejeo">대저 생태공원</option>
+                        <option name = 화명 value="hwamyeong">화명 생태공원</option>
+                        <option name = 구덕 value="gudeok">구덕 운동장</option>
+                        <option name = 스포원파크 value="spoonePark">스포원 파크</option>
+                        <option name = 삽량 value="sapryang">삽량</option>
+                        <option name = 사직구장 value="sajik">사직 종합 실내</option>
+                    </select>
+                </form>
+                <form>
+                    <select id="select_place" name="select_place">
+                        <option value="select">선택</option>
+                    </select>
+                </form>
+                <br>
+                    <button id = "thisMonth" type="button" onclick="getSchedule(),  uptoDate_now()">8월 요청</button>
+                    <button id = "nextMonth" type="button" onclick="nextCalendar(),  uptoDate_next()">9월 요청</button>
+                </div>
+                <div class="calenderWrap">
+                    <div class = "calenderHead"> 
+                        <tr>
+                            <!-- <button onClick="prevCalendar();" style="cursor:pointer;">&#60</button> -->
+                            <td colspan="5">
+                                <span id="calYear"></span>년
+                                <span id="calMonth"></span>월
+                            </td>
+                            <!-- <button onClick="nextCalendar();" style="cursor:pointer;">&#62</button> -->
+                        </tr>
+                    </div>
+                    <div>
+                        <table id="Calendar">
+                            <thead>
+                                <tr>
+                                    <td>일</td>
+                                    <td>월</td>
+                                    <td>화</td>
+                                    <td>수</td>
+                                    <td>목</td>
+                                    <td>금</td>
+                                    <td>토</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        <span class="selectMark"> 
+                            <em class="hidden">선택 가능</em>
+                        </span>
+                        <span class="text"> 선택 가능</span>
+                        <span class="disableMark"> 
+                            <em class="hidden">선택 불가</em>
+                        </span>
+                        <span class="text"> 선택 불가</span>
+                    </p>
+                </div>
+                <div id = "result">
+                    <table id = "place">
+                    </table> 
+                </div>
+            </section>     
+            <section id="info">
+                <!-- <div class="img">
+                    <img class="displayedImage main_img" src="css/뒷배경(테니스코트).png" alt="Image 1">
+                    <img class="displayedImage sub_img" src="css/로고 뒷배경(바닷가).jpg" alt="Image 2">
+                    <img class="displayedImage sub_img" src="css/로고 뒷배경(클레이코트).jpg" alt="Image 3">
+                </div> -->
+                <div id="info_text"></div>
+            </section>     
+        </main>
+    </div>
+  <script src="js/marker.js"></script>
+  <script src="js/getplace.js"></script>
+  <script src="js/getSchedule.js"></script>
+  <script src="js/partChange.js"></script>
+  <script src="js/spinner.js"></script>
+  <script>
+    function combinedFunction() {
+        part_zoom();
+        partChange();
+    }
+  </script>
+</body>
+</html>
