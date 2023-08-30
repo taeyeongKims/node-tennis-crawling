@@ -1,3 +1,5 @@
+const https = require("https"); // https 모듈 불러오기
+const fs = require('fs');
 const express = require('express');
 const app = express()
 const cors = require('cors')
@@ -7,12 +9,28 @@ const cheerio = require('cheerio');
 let sessionData;
 let sessionDatas = [];
 
-startServer();
+async function startServer() {
+    // 로그인 및 세션 정보 얻기
+    sessionDatas = await openWebPage();
+  
+    // 서버 시작
+    server.listen(443, "0.0.0.0", () => {
+      console.log('Server started');
+    });
+  }
 
 app.use(cors())
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/tennisreservationchecking.shop/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/tennisreservationchecking.shop/fullchain.pem')
+};
+
+const server = https.createServer(options, app);
 app.get('/', (req, res) =>{
   console.log("success")
 })
+
+startServer();
 
 app.get('/schedule', async (req, res) => {
   const selected_part = req.query.select_part;
@@ -37,16 +55,6 @@ app.get('/place', async(req, res) =>{
   let tennisTime = await reserveParsing(selected_part, selected_place, selected_date, calendarMonth);
    res.json({'time' :tennisTime});
 })
-
-  async function startServer() {
-    // 로그인 및 세션 정보 얻기
-    sessionDatas = await openWebPage();
-  
-    // 서버 시작
-    app.listen(3000, () => {
-      console.log('Server started');
-    });
-  }
 
  //로그인 및 세션 정보 얻기 
 async function openWebPage() {
