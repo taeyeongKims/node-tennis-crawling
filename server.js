@@ -43,7 +43,7 @@ app.get('/place', async(req, res) =>{
     sessionDatas = await openWebPage();
   
     // 서버 시작
-    app.listen(8080, () => {
+    app.listen(443, () => {
       console.log('Server started');
     });
   }
